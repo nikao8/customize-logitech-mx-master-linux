@@ -7,10 +7,10 @@ PREFIX  := /usr/local
 all: build
 
 build: clean
-	$(GO) build -tags ci -o $(BINARY)
+	$(GO) build -tags ci -o $(BINARY) ./src
 
 build-release: clean
-	$(GO) build -o $(BINARY)
+	$(GO) build -o $(BINARY) ./src
 
 clean:
 	$(RM) $(BINARY)
@@ -23,4 +23,7 @@ test:
 	$(GO) test -tags ci -v ./...
 
 run: build
+	./$(BINARY)
+
+run-release: build-release
 	./$(BINARY)
