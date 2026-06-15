@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "==> Instalando dependências para Fedora..."
+
+sudo dnf install -y \
+    golang \
+    libXcursor-devel \
+    libXrandr-devel \
+    mesa-libGL-devel \
+    git \
+    cmake \
+    gcc-c++ \
+    libevdev-devel \
+    systemd-devel \
+    libconfig-devel \
+    glib2-devel
+
+if ! command -v logid &>/dev/null; then
+    echo "==> Compilando e instalando logiops (logid)..."
+    cd /tmp
+    git clone https://github.com/PixlOne/logiops.git
+    cd logiops
+    mkdir build && cd build
+    cmake ..
+    make -j"$(nproc)"
+    sudo make install
+    sudo systemctl enable logid.service
+    cd /tmp && rm -rf logiops
+    echo "==> logiops instalado com sucesso!"
+else
+    echo "==> logid já está instalado, pulando."
+fi
+
+echo "==> Dependências instaladas. Agora execute 'make build-release' na raiz do projeto."
