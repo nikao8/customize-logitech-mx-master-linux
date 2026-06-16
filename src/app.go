@@ -62,6 +62,7 @@ func NewApp(w fyne.Window) *App {
 		window: w,
 		config: cfg,
 	}
+	a.ensureAllButtons()
 	w.SetTitle(Translate("Configuração do Logitech MX Master", "Logitech MX Master Configuration", currentLang))
 	w.Resize(fyne.NewSize(800, 600))
 	return a
@@ -791,6 +792,18 @@ func (a *App) formatThumbAction(a2 Action) string {
 		return "None"
 	}
 	return a.formatAction(a2)
+}
+
+func (a *App) ensureAllButtons() {
+	seen := make(map[uint32]bool)
+	for _, btn := range a.config.Buttons {
+		seen[btn.CID] = true
+	}
+	for _, bi := range MXMasterButtons {
+		if !seen[bi.CID] {
+			a.config.Buttons = append(a.config.Buttons, ButtonConfig{CID: bi.CID, Action: Action{Type: "None"}})
+		}
+	}
 }
 
 func (a *App) applyConfigToUI() {
