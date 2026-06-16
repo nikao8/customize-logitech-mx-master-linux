@@ -47,9 +47,10 @@ type SmartShiftConfig struct {
 }
 
 type HiResScrollConfig struct {
-	Hires  bool
-	Invert bool
-	Target bool
+	Enabled bool
+	Hires   bool
+	Invert  bool
+	Target  bool
 }
 
 type Config struct {
@@ -70,9 +71,10 @@ func DefaultConfig() Config {
 			Threshold: 30,
 		},
 		HiResScroll: HiResScrollConfig{
-			Hires:  false,
-			Invert: false,
-			Target: false,
+			Enabled: false,
+			Hires:   false,
+			Invert:  false,
+			Target:  false,
 		},
 		Thumbwheel: ThumbwheelConfig{
 			Divert: true,
@@ -83,7 +85,7 @@ func DefaultConfig() Config {
 			{CID: 0x00c4, Action: Action{Type: "ToggleSmartShift"}},
 			{CID: 0x0053, Action: Action{Type: "Keypress", Keys: []string{"KEY_BACK"}}},
 			{CID: 0x0056, Action: Action{Type: "Keypress", Keys: []string{"KEY_FORWARD"}}},
-			{CID: 0x0052, Action: Action{Type: "Keypress", Keys: []string{"KEY_ENTER"}}},
+			{CID: 0x0052, Action: Action{Type: "None"}},
 			{CID: 0x0050, Action: Action{Type: "None"}},
 			{CID: 0x0051, Action: Action{Type: "None"}},
 		},
@@ -102,11 +104,13 @@ func (c *Config) Generate() string {
 	b.WriteString(fmt.Sprintf("        threshold: %d;\n", c.SmartShift.Threshold))
 	b.WriteString("    };\n")
 
-	b.WriteString("    hiresscroll:\n    {\n")
-	b.WriteString(fmt.Sprintf("        hires: %s;\n", boolStr(c.HiResScroll.Hires)))
-	b.WriteString(fmt.Sprintf("        invert: %s;\n", boolStr(c.HiResScroll.Invert)))
-	b.WriteString(fmt.Sprintf("        target: %s;\n", boolStr(c.HiResScroll.Target)))
-	b.WriteString("    };\n")
+	if c.HiResScroll.Enabled {
+		b.WriteString("    hiresscroll:\n    {\n")
+		b.WriteString(fmt.Sprintf("        hires: %s;\n", boolStr(c.HiResScroll.Hires)))
+		b.WriteString(fmt.Sprintf("        invert: %s;\n", boolStr(c.HiResScroll.Invert)))
+		b.WriteString(fmt.Sprintf("        target: %s;\n", boolStr(c.HiResScroll.Target)))
+		b.WriteString("    };\n")
+	}
 
 	if c.Thumbwheel.Divert {
 		b.WriteString("    thumbwheel:\n    {\n")
@@ -422,6 +426,7 @@ func ParseConfig(data string) Config {
 			}
 		}
 		cfg.SmartShift.Threshold = extractInt(block, "threshold")
+
 	}
 
 	if block := extractBlock(data, reHiResScroll); block != "" {
@@ -435,6 +440,7 @@ func ParseConfig(data string) Config {
 				cfg.HiResScroll.Target = m[2] == "true"
 			}
 		}
+		cfg.HiResScroll.Enabled = cfg.HiResScroll.Hires || cfg.HiResScroll.Invert || cfg.HiResScroll.Target
 	}
 
 	// Find and parse thumbwheel block

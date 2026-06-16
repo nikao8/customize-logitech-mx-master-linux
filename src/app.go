@@ -18,15 +18,16 @@ type App struct {
 	window fyne.Window
 	config Config
 
-	nameSelect       *widget.Select
-	dpiSlider        *widget.Slider
-	dpiLabel         *widget.Label
-	smartShiftCheck  *widget.Check
-	smartShiftSlider *widget.Slider
-	smartShiftLabel  *widget.Label
-	hiresCheck       *widget.Check
-	hiresInvertCheck *widget.Check
-	hiresTargetCheck *widget.Check
+	nameSelect        *widget.Select
+	dpiSlider         *widget.Slider
+	dpiLabel          *widget.Label
+	smartShiftCheck   *widget.Check
+	smartShiftSlider  *widget.Slider
+	smartShiftLabel   *widget.Label
+	hiresEnabledCheck *widget.Check
+	hiresCheck        *widget.Check
+	hiresInvertCheck  *widget.Check
+	hiresTargetCheck  *widget.Check
 
 	thumbDivertCheck *widget.Check
 	thumbInvertCheck *widget.Check
@@ -189,6 +190,24 @@ func (a *App) buildSmartShiftSection() fyne.CanvasObject {
 }
 
 func (a *App) buildHiResSection() fyne.CanvasObject {
+	a.hiresEnabledCheck = widget.NewCheck(Translate("Habilitar Configuração do Scroll de Alta Resolução", "Enable Hi-Res Scrolling Settings", currentLang), func(b bool) {
+		a.config.HiResScroll.Enabled = b
+		if a.hiresCheck == nil {
+			return
+		}
+		if !b {
+			a.hiresCheck.Disable()
+			a.hiresInvertCheck.Disable()
+			a.hiresTargetCheck.Disable()
+		} else {
+			a.hiresCheck.Enable()
+			a.hiresInvertCheck.Enable()
+			a.hiresTargetCheck.Enable()
+		}
+		a.refreshPreview()
+	})
+	a.hiresEnabledCheck.SetChecked(a.config.HiResScroll.Enabled)
+
 	a.hiresCheck = widget.NewCheck(Translate("Ativar Scroll de Alta Resolução", "Enable Hi-Res Scrolling", currentLang), func(b bool) {
 		a.config.HiResScroll.Hires = b
 		a.refreshPreview()
@@ -207,8 +226,17 @@ func (a *App) buildHiResSection() fyne.CanvasObject {
 	})
 	a.hiresTargetCheck.SetChecked(a.config.HiResScroll.Target)
 
+	if !a.config.HiResScroll.Enabled {
+		a.hiresCheck.Disable()
+		a.hiresInvertCheck.Disable()
+		a.hiresTargetCheck.Disable()
+	}
+
 	box := container.NewVBox(
-		widget.NewLabelWithStyle(Translate("Scroll de Alta Resolução", "Hi-Res Scrolling", currentLang), fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
+		container.NewHBox(
+			widget.NewLabelWithStyle(Translate("Scroll de Alta Resolução", "Hi-Res Scrolling", currentLang), fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
+			a.hiresEnabledCheck,
+		),
 		a.hiresCheck,
 		a.hiresInvertCheck,
 		a.hiresTargetCheck,
@@ -780,9 +808,20 @@ func (a *App) applyConfigToUI() {
 	a.smartShiftSlider.Refresh()
 	a.smartShiftLabel.SetText(fmt.Sprintf("Threshold: %d", a.config.SmartShift.Threshold))
 
+	a.hiresEnabledCheck.SetChecked(a.config.HiResScroll.Enabled)
 	a.hiresCheck.SetChecked(a.config.HiResScroll.Hires)
 	a.hiresInvertCheck.SetChecked(a.config.HiResScroll.Invert)
 	a.hiresTargetCheck.SetChecked(a.config.HiResScroll.Target)
+
+	if a.config.HiResScroll.Enabled {
+		a.hiresCheck.Enable()
+		a.hiresInvertCheck.Enable()
+		a.hiresTargetCheck.Enable()
+	} else {
+		a.hiresCheck.Disable()
+		a.hiresInvertCheck.Disable()
+		a.hiresTargetCheck.Disable()
+	}
 
 	a.thumbDivertCheck.SetChecked(a.config.Thumbwheel.Divert)
 	a.thumbInvertCheck.SetChecked(a.config.Thumbwheel.Invert)
