@@ -13,7 +13,7 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/logidtt
+ExecStart=/usr/bin/logid
 Restart=always
 RestartSec=3
 StandardOutput=journal
