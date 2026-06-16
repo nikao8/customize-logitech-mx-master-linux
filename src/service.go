@@ -18,7 +18,7 @@ Restart=always
 RestartSec=3
 StandardOutput=journal
 StandardError=journal
-uu
+
 [Install]
 WantedBy=multi-user.target
 `
