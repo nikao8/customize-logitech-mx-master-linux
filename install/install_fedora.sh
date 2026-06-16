@@ -33,4 +33,5 @@ else
     echo "==> logid já está instalado, pulando."
 fi
 
-echo "==> Dependências instaladas. Agora execute 'make build-release' na raiz do projeto."
+echo "==> Dependências instaladas. Agora execute o binario com permissões de root."
+
