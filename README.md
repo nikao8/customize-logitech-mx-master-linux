@@ -2,7 +2,7 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/nikao8)
 
-Interface gráfica para gerar e gerenciar a configuração do [logiops](https://github.com/PixlOne/logiops) (logid) para mouses Logitech MX Master.
+Interface gráfica para gerar e gerenciar a configuração e personalização dos mouses da linha Logitech MX Master no Linux através do [logiops](https://github.com/PixlOne/logiops) (logid) para mouses.
 
 ## Instalação
 
