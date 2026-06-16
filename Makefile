@@ -1,7 +1,7 @@
 BINARY   := logid-config-gui
 GO       := go
 PREFIX   := /usr/local
-VERSION  := v1.0
+VERSION  := v2.0
 RELEASE  := release
 LDFLAGS  := -ldflags="-X 'logitech-mx-master-customization-linux/src.Version=$(VERSION)'"
 

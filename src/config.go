@@ -77,7 +77,7 @@ func DefaultConfig() Config {
 			Target:  false,
 		},
 		Thumbwheel: ThumbwheelConfig{
-			Divert: true,
+			Divert: false,
 			Invert: false,
 		},
 		Buttons: []ButtonConfig{
