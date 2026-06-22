@@ -36,7 +36,7 @@ sudo ./logid-config-gui
 
 1. Descubra o nome do dispositivo: `sudo logid -v`
 2. Abra o GUI, selecione o nome exato e configure botões, DPI, SmartShift e roda lateral
-3. Na aba **Service**, clique **Save Configuration** e depois **Install & Start Service**
+3. Na aba **Save**, clique **Save Configuration** e depois **Install & Start Service**
 4. A cada alteração que fizer, lembre de clicar em **Save Configuration** e **Restart Service**
 
 ---
@@ -71,7 +71,7 @@ sudo ./logid-config-gui
 
 1. Find your device name: `sudo logid -v`
 2. Open the GUI, select the exact device name, and configure buttons, DPI, SmartShift, and the side wheel
-3. In the **Service** tab, click **Save Configuration** and then **Install & Start Service**
+3. In the **Save** tab, click **Save Configuration** and then **Install & Start Service**
 4. After any change, remember to click **Save Configuration** and **Restart Service**
 
 ## Languages
