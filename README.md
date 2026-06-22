@@ -1,4 +1,4 @@
-# Logitech MX Master Configuration GUI
+# Logitech MX Master Configuration GUI PT-BR:
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/nikao8)
 
@@ -31,22 +31,11 @@ sudo ./logid-config-gui
 1. Descubra o nome do dispositivo: `sudo logid -v`
 2. Abra o GUI, selecione o nome exato e configure botões, DPI, SmartShift e roda lateral
 3. Na aba **Service**, clique **Save Configuration** e depois **Install & Start Service**
+4. A cada alteração que fizer, lembre de clicar em **Save Configuration** e **Restart Service**, 
 
 ## Idiomas
 
 Interface disponível em **English** e **Português (Brasil)**.
-
-## Estrutura
-
-```
-├── app.go        # Interface Fyne
-├── config.go     # Modelo e gerador de /etc/logid.cfg
-├── mapping.go    # Mapas de CID, keycodes, traduções
-├── service.go    # Gerenciamento do serviço systemd
-├── main.go       # Ponto de entrada
-├── Makefile      # build-debian, build-arch, build-fedora
-└── README.md
-```
 
 ## Referências
 
